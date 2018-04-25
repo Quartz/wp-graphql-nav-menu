@@ -80,21 +80,29 @@ class MenuItemType extends WPObjectType {
 							$object_id   = get_post_meta( $menu_item->ID, '_menu_item_object_id', true );
 							$object_type = get_post_meta( $menu_item->ID, '_menu_item_type', true );
 
-							switch ( $object_type ) {
-								// Custom link ... resolve with menu item.
-								case 'custom':
-									return $menu_item;
+							// By default, resolve to the menu item itself. This is the
+							// case for custom links.
+							$resolved_object = $menu_item;
 
+							switch ( $object_type ) {
 								// Post object
 								case 'post_type':
-									return get_post( $object_id );
+									$resolved_object = get_post( $object_id );
+									break;
 
 								// Taxonomy term
 								case 'taxonomy':
-									return get_term( $object_id );
+									$resolved_object = get_term( $object_id );
+									break;
 							}
 
-							return null;
+							/**
+							 * Allow users to override how nav menu items are resolved.
+							 * This is useful since we often add taxonomy terms to menus
+							 * but would prefer to represent the menu item in other ways,
+							 * e.g., a linked post object (or vice-versa).
+							 */
+							return apply_filters( 'graphql_resolve_menu_item', $resolved_object );
 						},
 					],
 					'cssClasses' => [

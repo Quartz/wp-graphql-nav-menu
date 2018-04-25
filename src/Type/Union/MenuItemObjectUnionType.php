@@ -65,9 +65,11 @@ class MenuItemObjectUnionType extends UnionType {
 			return self::$possible_types;
 		}
 
+		// We could restrict this further using `show_in_nav_menus`, but it's of
+		// questionable utility since we'd only be creating more work for those
+		// that want to implement custom resolution of menu items.
 		$args = [
 			'show_in_graphql'   => true,
-			'show_in_nav_menus' => true,
 		];
 
 		self::$possible_types = [];
