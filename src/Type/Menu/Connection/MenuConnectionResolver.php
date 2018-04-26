@@ -29,12 +29,12 @@ class MenuConnectionResolver extends TermObjectConnectionResolver {
 			'taxonomy'   => 'nav_menu',
 		];
 
-		if ( isset( $args['where']['slug'] ) && ! empty( $args['where']['slug'] ) ) {
+		if ( ! empty( $args['where']['slug'] ) ) {
 			$term_args['slug'] = $args['where']['slug'];
 			$term_args['include'] = null;
 		}
 
-		if ( isset( $args['where']['location'] ) && ! empty( $args['where']['location'] ) ) {
+		if ( ! empty( $args['where']['location'] ) ) {
 			$theme_locations = get_nav_menu_locations();
 
 			if ( isset( $theme_locations[ $args['where']['location'] ] ) ) {
@@ -42,7 +42,7 @@ class MenuConnectionResolver extends TermObjectConnectionResolver {
 			}
 		}
 
-		if ( isset( $args['where']['id'] ) && ! empty( $args['where']['id'] ) ) {
+		if ( ! empty( $args['where']['id'] ) ) {
 			$term_args['include'] = $args['where']['id'];
 		}
 
