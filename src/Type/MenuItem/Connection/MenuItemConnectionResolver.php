@@ -27,16 +27,29 @@ class MenuItemConnectionResolver extends PostObjectConnectionResolver {
 	 */
 	public static function get_query_args( $source, array $args, AppContext $context, ResolveInfo $info ) {
 
+		$query_args = [];
+
 		/**
-		 * Determine the menu_slug based on the $source of the query
+		 * Determine the menu_slug based on the $source of the query or from query
+		 * args.
 		 */
 		if ( $source instanceof \WP_Term ) {
 			$menu_slug = ! empty( $source->slug ) ? $source->slug : null;
 		} elseif ( $source instanceof \WP_Post ) {
 			$menu_slug = ! empty( $source->menu->slug ) ? $source->menu->slug : null;
+		} elseif ( ! empty( $args['where']['location'] ) ) {
+			$menu_slug = $args['where']['location'];
 		}
 
 		/**
+		 * Allow menu items to be queried by ID.
+		 */
+		if ( ! empty( $args['where']['id'] ) ) {
+			$query_args['post__in'] = [ intval( $args['where']['id'] ) ];
+		}
+
+		/**
+		 * **NOT CURRENTLY IMPLEMENTED**
 		 * If the source of the query is another nav_menu_item, and
 		 * the field is "childItems" set the value of the $menu_item_parent to
 		 */

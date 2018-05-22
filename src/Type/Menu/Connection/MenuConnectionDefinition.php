@@ -69,7 +69,7 @@ class MenuConnectionDefinition {
 	}
 
 	/**
-	 * Defines the "where" args that can be used to query menuItems
+	 * Defines the "where" args that can be used to query menus
 	 *
 	 * @return WPInputObjectType
 	 */
